@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom responsive scaling for resume preview */
+.resume-preview {
+    transform-origin: top center;
+}
+
+@media (max-width: 640px) {
+    .resume-preview {
+        transform: scale(0.8);
+    }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+    .resume-preview {
+        transform: scale(0.65);
+    }
+}
+
+@media (min-width: 1025px) {
+    .resume-preview {
+        transform: scale(0.5);
+    }
+}
