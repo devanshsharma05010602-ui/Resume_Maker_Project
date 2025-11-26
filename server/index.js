@@ -9,19 +9,30 @@ connectDB();
 const app = express();
 
 // CORS Configuration for production and development
-const allowedOrigins = [
-    'http://localhost:5173', // Local development
-    process.env.FRONTEND_URL // Production frontend (Vercel)
-].filter(Boolean); // Remove undefined values
+const getAllowedOrigins = () => {
+    const origins = ['http://localhost:5173']; // Local development
+
+    if (process.env.FRONTEND_URL) {
+        // Remove trailing slash if present and add to allowed origins
+        origins.push(process.env.FRONTEND_URL.replace(/\/$/, ''));
+    }
+
+    return origins;
+};
+
+const allowedOrigins = getAllowedOrigins();
+console.log('Allowed Origins:', allowedOrigins);
 
 app.use(cors({
     origin: function (origin, callback) {
         // Allow requests with no origin (like mobile apps, curl, Postman)
         if (!origin) return callback(null, true);
-        
+
         if (allowedOrigins.indexOf(origin) !== -1) {
             callback(null, true);
         } else {
+            console.log('BLOCKED BY CORS:', origin);
+            console.log('Expected one of:', allowedOrigins);
             callback(new Error('Not allowed by CORS'));
         }
     },
