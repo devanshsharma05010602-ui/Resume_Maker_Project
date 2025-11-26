@@ -5,6 +5,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useResume } from '../../context/ResumeContext';
 import { ArrowLeft } from 'lucide-react';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 const Auth = () => {
   const { login, token } = useResume();
   const navigate = useNavigate();
@@ -30,11 +32,11 @@ const Auth = () => {
     setLoading(true);
     try {
       if (isRegister) {
-        await axios.post('http://localhost:5000/api/auth/register', formData);
+        await axios.post(`${API_URL}/api/auth/register`, formData);
         alert('Registration successful! Please login.');
         setIsRegister(false);
       } else {
-        const res = await axios.post('http://localhost:5000/api/auth/login', {
+        const res = await axios.post(`${API_URL}/api/auth/login`, {
           email: formData.email,
           password: formData.password,
         });
